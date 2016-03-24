@@ -2,6 +2,7 @@
 #define GAME_HPP
 
 #include <SFML/Graphics.hpp>
+#include "inc/resource_manager.hpp"
 
 namespace tc {
 	namespace colour {
@@ -17,11 +18,12 @@ namespace tc {
 		private:
 			void update_statistics(sf::Time delta_time);
 			sf::RenderWindow window;
-			sf::Texture tank_texture;
 			sf::Sprite tank;
+			sf::Sprite turret;
 			sf::Vector2f movement;
 			static const sf::Time TIME_PER_FRAME;
 			static const float TANK_SPEED;
+			TextureManager texture_manager;
 			sf::Font font;
 			sf::Text statistics_text;
 			sf::Time statistics_update_time;

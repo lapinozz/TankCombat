@@ -5,12 +5,17 @@ namespace tc {
 	const float Game::TANK_SPEED = 100.f;
 	const sf::Time Game::TIME_PER_FRAME = sf::seconds(1.f / 60.f);
 
-	Game::Game() : window(sf::VideoMode(640, 480), "Tank Combat"), tank_texture(), tank(), movement(0.f, 0.f), font(), statistics_text(), statistics_update_time(), statistics_num_frames(0) {
-		this->tank_texture.loadFromFile("media/Textures/Tanks/tankGreen_outline.png");
-		this->tank.setTexture(this->tank_texture);
+	Game::Game() : window(sf::VideoMode(640, 480), "Tank Combat"), tank(), turret(), movement(0.f, 0.f), texture_manager(), font(), statistics_text(), statistics_update_time(), statistics_num_frames(0) {
+		this->texture_manager.load(Textures::Tank, "media/Textures/Tanks/tankGreen_outline.png");
+		this->tank.setTexture(this->texture_manager.get(Textures::Tank));
 		this->tank.setScale(0.5f, 0.5f);
-		this->tank.setOrigin(this->tank_texture.getSize().x / 2, this->tank_texture.getSize().y / 2);
+		this->tank.setOrigin(this->texture_manager.get(Textures::Tank).getSize().x / 2, this->texture_manager.get(Textures::Tank).getSize().y / 2);
 		this->tank.setPosition(this->window.getSize().x / 2, this->window.getSize().y / 2);
+		this->texture_manager.load(Textures::Turret, "media/Textures/Tanks/barrelGreen_outline.png");
+		this->turret.setTexture(this->texture_manager.get(Textures::Turret));
+		this->turret.setScale(0.5f, 0.5f);
+		this->turret.setOrigin(this->texture_manager.get(Textures::Turret).getSize().x / 2, this->texture_manager.get(Textures::Turret).getSize().y / 2);
+		this->turret.setPosition(this->window.getSize().x / 2, this->window.getSize().y / 2);
 		if (!this->font.loadFromFile("media/sansation.ttf")) {
 			throw std::runtime_error("Game::Game - Failed to load media/sansation.ttf");
 		}
@@ -64,12 +69,14 @@ namespace tc {
 
 	void Game::update(sf::Time delta_time) {
 		this->tank.move(this->movement * this->TANK_SPEED * delta_time.asSeconds());
+		this->turret.move(this->movement * this->TANK_SPEED * delta_time.asSeconds());
 		return;
 	}
 
 	void Game::draw() {
 		this->window.clear(colour::Brown);
 		this->window.draw(this->tank);
+		this->window.draw(this->turret);
 		this->window.draw(this->statistics_text);
 		this->window.display();
 		return;
