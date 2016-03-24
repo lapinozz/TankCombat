@@ -1,11 +1,13 @@
 #include "inc/game.hpp"
+#include <cmath>
 
 namespace tc {
 
 	const float Game::TANK_SPEED = 100.f;
+	const float Game::TANK_ROTATION_SPEED = 50.f;
 	const sf::Time Game::TIME_PER_FRAME = sf::seconds(1.f / 60.f);
 
-	Game::Game() : window(sf::VideoMode(640, 480), "Tank Combat"), tank(), turret(), movement(0.f, 0.f), texture_manager(), font(), statistics_text(), statistics_update_time(), statistics_num_frames(0) {
+	Game::Game() : window(sf::VideoMode(640, 480), "Tank Combat"), tank(), turret(), movement(0.f), rotation(0.f), texture_manager(), font(), statistics_text(), statistics_update_time(), statistics_num_frames(0) {
 		this->texture_manager.load(Textures::Tank, "media/Textures/Tanks/tankGreen_outline.png");
 		this->tank.setTexture(this->texture_manager.get(Textures::Tank));
 		this->tank.setScale(0.5f, 0.5f);
@@ -52,24 +54,29 @@ namespace tc {
 			}
 		}
 		this->movement -= this->movement;
+		this->rotation -= this->rotation;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-			this->movement.y -= 1;
+			this->movement -= 1;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-			this->movement.y += 1;
+			this->movement += 1;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-			this->movement.x -= 1;
+			this->rotation -= 1;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-			this->movement.x += 1;
+			this->rotation += 1;
 		}
 		return;
 	}
 
 	void Game::update(sf::Time delta_time) {
-		this->tank.move(this->movement * this->TANK_SPEED * delta_time.asSeconds());
-		this->turret.move(this->movement * this->TANK_SPEED * delta_time.asSeconds());
+		this->tank.rotate(this->rotation * this->TANK_ROTATION_SPEED * delta_time.asSeconds());
+		this->turret.rotate(this->rotation * this->TANK_ROTATION_SPEED * delta_time.asSeconds());
+		float x = -1 * std::sin(this->tank.getRotation() * M_PI / 180) * this->movement * this->TANK_SPEED * delta_time.asSeconds();
+		float y = std::cos(this->tank.getRotation() * M_PI / 180) * this->movement * this->TANK_SPEED * delta_time.asSeconds();
+		this->tank.move(x, y);
+		this->turret.move(x, y);
 		return;
 	}
 

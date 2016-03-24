@@ -20,9 +20,11 @@ namespace tc {
 			sf::RenderWindow window;
 			sf::Sprite tank;
 			sf::Sprite turret;
-			sf::Vector2f movement;
+			float movement;
+			float rotation;
 			static const sf::Time TIME_PER_FRAME;
 			static const float TANK_SPEED;
+			static const float TANK_ROTATION_SPEED;
 			TextureManager texture_manager;
 			sf::Font font;
 			sf::Text statistics_text;
