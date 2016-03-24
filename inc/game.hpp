@@ -12,13 +12,15 @@ namespace tc {
 			Game();
 			void run();
 			void process_inputs();
-			void update();
+			void update(sf::Time delta_time);
 			void draw();
 		private:
 			sf::RenderWindow window;
 			sf::Texture tank_texture;
 			sf::Sprite tank;
 			sf::Vector2f movement;
+			static const sf::Time TIME_PER_FRAME;
+			static const float TANK_SPEED;
 	};
 }
 

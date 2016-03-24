@@ -1,6 +1,10 @@
 #include "inc/game.hpp"
 
 namespace tc {
+
+	const float Game::TANK_SPEED = 100.f;
+	const sf::Time Game::TIME_PER_FRAME = sf::seconds(1.f / 60.f);
+
 	Game::Game() : window(sf::VideoMode(640, 480), "Tank Combat"), tank_texture(), tank(), movement(0.f, 0.f) {
 		this->tank_texture.loadFromFile("media/Textures/Tanks/tankGreen_outline.png");
 		this->tank.setTexture(this->tank_texture);
@@ -10,9 +14,16 @@ namespace tc {
 	}
 
 	void Game::run() {
+		sf::Clock clock;
+		sf::Time time_since_last_update = sf::Time::Zero;
 		while (this->window.isOpen()) {
-			this->process_inputs();
-			this->update();
+			sf::Time elapsed_time = clock.restart();
+			time_since_last_update += elapsed_time;
+			while (time_since_last_update >= this->TIME_PER_FRAME) {
+				time_since_last_update -= this->TIME_PER_FRAME;
+				this->process_inputs();
+				this->update(this->TIME_PER_FRAME);
+			}
 			this->draw();
 		}
 		return;
@@ -44,8 +55,8 @@ namespace tc {
 		return;
 	}
 
-	void Game::update() {
-		this->tank.move(this->movement);
+	void Game::update(sf::Time delta_time) {
+		this->tank.move(this->movement * this->TANK_SPEED * delta_time.asSeconds());
 		return;
 	}
 
