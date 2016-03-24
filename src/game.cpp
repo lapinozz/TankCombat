@@ -5,12 +5,18 @@ namespace tc {
 	const float Game::TANK_SPEED = 100.f;
 	const sf::Time Game::TIME_PER_FRAME = sf::seconds(1.f / 60.f);
 
-	Game::Game() : window(sf::VideoMode(640, 480), "Tank Combat"), tank_texture(), tank(), movement(0.f, 0.f) {
+	Game::Game() : window(sf::VideoMode(640, 480), "Tank Combat"), tank_texture(), tank(), movement(0.f, 0.f), font(), statistics_text(), statistics_update_time(), statistics_num_frames(0) {
 		this->tank_texture.loadFromFile("media/Textures/Tanks/tankGreen_outline.png");
 		this->tank.setTexture(this->tank_texture);
 		this->tank.setScale(0.5f, 0.5f);
 		this->tank.setOrigin(this->tank_texture.getSize().x / 2, this->tank_texture.getSize().y / 2);
 		this->tank.setPosition(this->window.getSize().x / 2, this->window.getSize().y / 2);
+		if (!this->font.loadFromFile("media/sansation.ttf")) {
+			throw std::runtime_error("Game::Game - Failed to load media/sansation.ttf");
+		}
+		this->statistics_text.setFont(this->font);
+		this->statistics_text.setPosition(5.f, 5.f);
+		this->statistics_text.setCharacterSize(10);
 	}
 
 	void Game::run() {
@@ -24,6 +30,7 @@ namespace tc {
 				this->process_inputs();
 				this->update(this->TIME_PER_FRAME);
 			}
+			this->update_statistics(elapsed_time);
 			this->draw();
 		}
 		return;
@@ -63,7 +70,19 @@ namespace tc {
 	void Game::draw() {
 		this->window.clear(colour::Brown);
 		this->window.draw(this->tank);
+		this->window.draw(this->statistics_text);
 		this->window.display();
+		return;
+	}
+
+	void Game::update_statistics(sf::Time delta_time) {
+		this->statistics_update_time += delta_time;
+		++this->statistics_num_frames;
+		if (this->statistics_update_time >= sf::seconds(1.f)) {
+			this->statistics_text.setString(L"Frames / Second = " + std::to_wstring(this->statistics_num_frames) + L"\nTime / Update = " + std::to_wstring(this->statistics_update_time.asMicroseconds() / this->statistics_num_frames) + L" µs");
+			this->statistics_update_time -= sf::seconds(1.f);
+			this->statistics_num_frames = 0;
+		}
 		return;
 	}
 }

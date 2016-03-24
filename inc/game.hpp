@@ -15,12 +15,17 @@ namespace tc {
 			void update(sf::Time delta_time);
 			void draw();
 		private:
+			void update_statistics(sf::Time delta_time);
 			sf::RenderWindow window;
 			sf::Texture tank_texture;
 			sf::Sprite tank;
 			sf::Vector2f movement;
 			static const sf::Time TIME_PER_FRAME;
 			static const float TANK_SPEED;
+			sf::Font font;
+			sf::Text statistics_text;
+			sf::Time statistics_update_time;
+			std::size_t statistics_num_frames;
 	};
 }
 
