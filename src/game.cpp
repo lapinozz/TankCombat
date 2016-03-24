@@ -7,6 +7,11 @@ namespace tc {
 	const float Game::TANK_ROTATION_SPEED = 50.f;
 	const sf::Time Game::TIME_PER_FRAME = sf::seconds(1.f / 60.f);
 
+	/**
+	 * \brief Inits the Game object and prepares it to be run.
+	 *
+	 * Loads tank textures into the manager, sets up the statistics.
+	 */
 	Game::Game() : window(sf::VideoMode(640, 480), "Tank Combat"), tank(), turret(), movement(0.f), rotation(0.f), texture_manager(), font(), statistics_text(), statistics_update_time(), statistics_num_frames(0) {
 		this->texture_manager.load(Textures::Tank, "media/Textures/Tanks/tankGreen_outline.png");
 		this->tank.setTexture(this->texture_manager.get(Textures::Tank));
@@ -26,6 +31,13 @@ namespace tc {
 		this->statistics_text.setCharacterSize(10);
 	}
 
+	/**
+	 * \brief Runs the state.
+	 *
+	 * Implements fixed timestep.
+	 *
+	 * @see [Fix your timestep!](http://gafferongames.com/game-physics/fix-your-timestep/)
+	 */
 	void Game::run() {
 		sf::Clock clock;
 		sf::Time time_since_last_update = sf::Time::Zero;
@@ -43,6 +55,11 @@ namespace tc {
 		return;
 	}
 
+	/**
+	 * \brief Polls events and checks pressed keys.
+	 *
+	 * Sets movement and rotation.
+	 */
 	void Game::process_inputs() {
 		sf::Event e;
 		while (this->window.pollEvent(e)) {
@@ -70,6 +87,13 @@ namespace tc {
 		return;
 	}
 
+	/**
+	 * \brief Updates the model.
+	 *
+	 * Moves the tank around. Splitting movement into x and y using goniometry.
+	 *
+	 * @param delta_time The unit of time to forward the model by.
+	 */
 	void Game::update(sf::Time delta_time) {
 		this->tank.rotate(this->rotation * this->TANK_ROTATION_SPEED * delta_time.asSeconds());
 		this->turret.rotate(this->rotation * this->TANK_ROTATION_SPEED * delta_time.asSeconds());
@@ -80,6 +104,11 @@ namespace tc {
 		return;
 	}
 
+	/**
+	 * \brief Draws the current state of model.
+	 *
+	 * Clears the screen brown.
+	 */
 	void Game::draw() {
 		this->window.clear(colour::Brown);
 		this->window.draw(this->tank);
@@ -89,6 +118,14 @@ namespace tc {
 		return;
 	}
 
+
+	/**
+	 * \brief Computes statistics.
+	 *
+	 * Computes frames and update time.
+	 *
+	 * @param delta_time The unit of time to forward the statistics by.
+	 */
 	void Game::update_statistics(sf::Time delta_time) {
 		this->statistics_update_time += delta_time;
 		++this->statistics_num_frames;

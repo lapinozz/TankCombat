@@ -10,8 +10,18 @@
 
 namespace tc {
 
+	/**
+	 * \brief Texture identifiers.
+	 *
+	 * Each represents a unique texture.
+	 */
 	enum class Textures {Tank, Turret};
 
+	/**
+	 * \brief Generic manager to hold resources.
+	 *
+	 * Holds resources in unordered_map using EnumClassHash.
+	 */
 	template <typename Resource, typename Identifier>
 	class ResourceManager {
 		public:
@@ -27,6 +37,14 @@ namespace tc {
 
 	typedef ResourceManager<sf::Texture, Textures> TextureManager;
 
+	/**
+	 * \brief General usage load method.
+	 *
+	 * Loads common resources.
+	 *
+	 * @param id Appropriate identifier.
+	 * @param filename A file to load resource from.
+	 */
 	template <typename Resource, typename Identifier>
 	void ResourceManager<Resource, Identifier>::load(Identifier id, const std::string &filename) {
 		std::unique_ptr<Resource> resource(new Resource());
@@ -37,6 +55,14 @@ namespace tc {
 		return;
 	}
 
+	/**
+	 * \brief Special usage load method.
+	 *
+	 * Loads complex resources including shaders.
+	 *
+	 * @param id Appropriate identifier.
+	 * @param filename A file to load resource from.
+	 */
 	template <typename Resource, typename Identifier>
 	template <typename Parameter>
 	void ResourceManager<Resource, Identifier>::load(Identifier id, const std::string &filename, const Parameter &second_param) {
@@ -48,6 +74,14 @@ namespace tc {
 		return;
 	}
 
+	/**
+	 * \brief General usage get method.
+	 *
+	 * Returns the resource by it's identifier.
+	 *
+	 * @param id Appropriate identifier.
+	 * @return The resource asked.
+	 */
 	template <typename Resource, typename Identifier>
 	Resource& ResourceManager<Resource, Identifier>::get(Identifier id) {
 		auto found = this->resource_map.find(id);
@@ -55,6 +89,14 @@ namespace tc {
 		return *found->second;
 	}
 
+	/**
+	 * \brief Constant get method.
+	 *
+	 * Returns the resource by it's identifier.
+	 *
+	 * @param id Appropriate identifier.
+	 * @return The resource asked.
+	 */
 	template <typename Resource, typename Identifier>
 	const Resource& ResourceManager<Resource, Identifier>::get(Identifier id) const {
 		auto found = this->resource_map.find(id);
@@ -62,6 +104,14 @@ namespace tc {
 		return *found->second;
 	}
 
+	/**
+	 * \brief Ensures the insertion happens.
+	 *
+	 * Uses assert.
+	 *
+	 * @param id Appropriate identifier.
+	 * @param resource the unique_ptr to move in.
+	 */
 	template <typename Resource, typename Identifier>
 	void ResourceManager<Resource, Identifier>::insert_resource(Identifier id, std::unique_ptr<Resource> resource) {
 		auto inserted = this->resource_map.insert(std::make_pair(id, std::move(resource)));
