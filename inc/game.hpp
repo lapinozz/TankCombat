@@ -17,10 +17,10 @@ namespace tc {
 		public:
 			Game();
 			void run();
+		private:
 			void process_inputs();
 			void update(sf::Time delta_time);
 			void draw();
-		private:
 			void update_statistics(sf::Time delta_time);
 			sf::RenderWindow window;
 			sf::Sprite tank;
