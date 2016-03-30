@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "inc/resource_manager.hpp"
+#include "inc/world.hpp"
 
 namespace tc {
 	namespace colour {
@@ -23,14 +24,9 @@ namespace tc {
 			void draw();
 			void update_statistics(sf::Time delta_time);
 			sf::RenderWindow window;
-			sf::Sprite tank;
-			sf::Sprite turret;
-			float movement;
-			float rotation;
 			static const sf::Time TIME_PER_FRAME;
-			static const float TANK_SPEED;
-			static const float TANK_ROTATION_SPEED;
 			TextureManager texture_manager;
+			World world;
 			sf::Font font;
 			sf::Text statistics_text;
 			sf::Time statistics_update_time;
