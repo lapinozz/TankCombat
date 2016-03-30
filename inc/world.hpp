@@ -7,6 +7,7 @@
 #include "inc/resource_manager.hpp"
 #include "inc/scene_node.hpp"
 #include "inc/enum_class_hash.hpp"
+#include "inc/command_queue.hpp"
 
 namespace tc {
 	class World : private sf::NonCopyable {
@@ -14,6 +15,7 @@ namespace tc {
 			explicit World(sf::RenderWindow &window);
 			void update(sf::Time dt);
 			void draw();
+			CommandQueue& get_command_queue();
 		private:
 			enum class Layer {Tanks, LayerCount};
 			void load_textures();
@@ -28,6 +30,7 @@ namespace tc {
 			sf::FloatRect world_bounds;
 			sf::Vector2f spawn_position;
 			Tank *player_tank;
+			CommandQueue command_queue;
 	};
 }
 

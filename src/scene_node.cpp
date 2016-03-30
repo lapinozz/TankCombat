@@ -43,6 +43,16 @@ namespace tc {
 		return static_cast<unsigned int>(Category::Scene);
 	}
 
+	void SceneNode::on_command(const Command &command, sf::Time dt) {
+		if (command.category & this->get_category()) {
+			command.action(*this, dt);
+		}
+		for (auto &child : this->children) {
+			child->on_command(command, dt);
+		}
+		return;
+	}
+
 	void SceneNode::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 		states.transform *= this->getTransform();
 		this->draw_current(target, states);

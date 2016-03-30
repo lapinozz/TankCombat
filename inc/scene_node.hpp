@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <SFML/Graphics.hpp>
+#include "inc/command.hpp"
 
 namespace tc {
 	class SceneNode : public sf::Drawable, public sf::Transformable, private sf::NonCopyable {
@@ -16,6 +17,7 @@ namespace tc {
 			sf::Transform get_world_transform() const;
 			sf::Vector2f get_world_position() const;
 			virtual unsigned int get_category() const;
+			void on_command(const Command &command, sf::Time dt);
 		private:
 			virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const final;
 			virtual void draw_current(sf::RenderTarget &target, sf::RenderStates states) const;

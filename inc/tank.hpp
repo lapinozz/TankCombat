@@ -14,8 +14,6 @@ namespace tc {
 			virtual void draw_current(sf::RenderTarget &target, sf::RenderStates states) const override;
 			virtual void update_current(sf::Time dt) override;
 			sf::Sprite sprite;
-			static const float TANK_SPEED;
-			static const float TANK_ROTATION_SPEED;
 	};
 }
 #endif

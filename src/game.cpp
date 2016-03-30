@@ -10,7 +10,7 @@ namespace tc {
 	 *
 	 * Loads tank textures into the manager, sets up the statistics.
 	 */
-	Game::Game() : window(sf::VideoMode(640, 480), "Tank Combat"), texture_manager(), font(), statistics_text(), statistics_update_time(), statistics_num_frames(0), world(window) {
+	Game::Game() : window(sf::VideoMode(640, 480), "Tank Combat"), texture_manager(), world(window), player(), font(), statistics_text(), statistics_update_time(), statistics_num_frames(0) {
 		if (!this->font.loadFromFile("media/sansation.ttf")) {
 			throw std::runtime_error("Game::Game - Failed to load media/sansation.ttf");
 		}
@@ -50,7 +50,9 @@ namespace tc {
 	 */
 	void Game::process_inputs() {
 		sf::Event e;
+		CommandQueue &commands = this->world.get_command_queue();
 		while (this->window.pollEvent(e)) {
+			this->player.handle_event(e, commands);
 			if (e.type == sf::Event::Closed) {
 				this->window.close();
 			}
@@ -58,7 +60,7 @@ namespace tc {
 				this->window.close();
 			}
 		}
-
+		this->player.handle_realtime_input(commands);
 		return;
 	}
 

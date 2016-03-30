@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "inc/resource_manager.hpp"
 #include "inc/world.hpp"
+#include "inc/player.hpp"
 
 namespace tc {
 	namespace colour {
@@ -27,6 +28,7 @@ namespace tc {
 			static const sf::Time TIME_PER_FRAME;
 			TextureManager texture_manager;
 			World world;
+			Player player;
 			sf::Font font;
 			sf::Text statistics_text;
 			sf::Time statistics_update_time;

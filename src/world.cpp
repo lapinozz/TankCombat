@@ -10,6 +10,9 @@ namespace tc {
 
 	void World::update(sf::Time dt) {
 		this->player_tank->set_movement(0.f);
+		while (!this->command_queue.is_empty()) {
+			this->scene_graph.on_command(this->command_queue.pop(), dt);
+		}
 		this->adapt_player_movement();
 		this->scene_graph.update(dt);
 		this->adapt_player_position();
@@ -20,6 +23,10 @@ namespace tc {
 		this->window.setView(this->world_view);
 		this->window.draw(this->scene_graph);
 		return;
+	}
+
+	CommandQueue& World::get_command_queue() {
+		return this->command_queue;
 	}
 
 	void World::load_textures() {
@@ -44,7 +51,7 @@ namespace tc {
 
 	void World::adapt_player_position() {
 		sf::FloatRect view_bounds(this->world_view.getCenter() - this->world_view.getSize() / 2.f, this->world_view.getSize());
-		const float border_distance = 40.f;
+		const float border_distance = 30.f;
 		sf::Vector2f position = this->player_tank->getPosition();
 		position.x = std::max(position.x, view_bounds.left + border_distance);
 		position.x = std::min(position.x, view_bounds.left + view_bounds.width - border_distance);

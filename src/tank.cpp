@@ -3,9 +3,6 @@
 #include <cmath>
 
 namespace tc {
-	const float Tank::TANK_SPEED = 100.f;
-	const float Tank::TANK_ROTATION_SPEED = 50.f;
-
 	Textures to_textures() {
 		return Textures::Tank;
 	}
@@ -26,23 +23,9 @@ namespace tc {
 	}
 
 	void Tank::update_current(sf::Time dt) {
-		this->movement -= this->movement;
-		this->rotation -= this->rotation;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-			this->movement -= 1;
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-			this->movement += 1;
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-			this->rotation -= 1;
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-			this->rotation += 1;
-		}
-		this->sprite.rotate(this->rotation * this->TANK_ROTATION_SPEED * dt.asSeconds());
-		float x = -1 * std::sin(this->sprite.getRotation() * M_PI / 180) * this->movement * this->TANK_SPEED * dt.asSeconds();
-		float y = std::cos(this->sprite.getRotation() * M_PI / 180) * this->movement * this->TANK_SPEED * dt.asSeconds();
+		this->setRotation(this->rotation);
+		float x = -1 * std::sin(this->getRotation() * M_PI / 180) * this->movement;
+		float y = std::cos(this->getRotation() * M_PI / 180) * this->movement;
 		this->move(x, y);
 		return;
 	}
