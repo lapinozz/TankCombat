@@ -2,8 +2,9 @@
 #include <cmath>
 
 namespace tc {
-	World::World(sf::RenderWindow &window) : window(window), world_view(window.getDefaultView()), textures(), scene_graph(), scene_layers(), world_bounds(0.f, 0.f, this->world_view.getSize().x, this->world_view.getSize().y), spawn_position(this->world_view.getSize().x / 2.f, this->world_bounds.height - this->world_view.getSize().y / 2.f), player_tank(nullptr)/*, command_queue()*/ {
+	World::World(sf::RenderWindow &window) : window(window), world_view(window.getDefaultView()), textures(), sounds(), scene_graph(), scene_layers(), world_bounds(0.f, 0.f, this->world_view.getSize().x, this->world_view.getSize().y), spawn_position(this->world_view.getSize().x / 2.f, this->world_bounds.height - this->world_view.getSize().y / 2.f), player_tank(nullptr), command_queue() {
 		this->load_textures();
+		this->load_sounds();
 		this->build_scene();
 		this->world_view.setCenter(this->spawn_position);
 	}
@@ -35,13 +36,19 @@ namespace tc {
 		return;
 	}
 
+	void World::load_sounds() {
+		this->sounds.load(Sounds::Idle, "media/Sounds/tank-idle.ogg");
+		this->sounds.load(Sounds::Moving, "media/Sounds/tank-moving.ogg");
+		return;
+	}
+
 	void World::build_scene() {
 		for (std::size_t i = 0; i < static_cast<std::size_t>(Layer::LayerCount); ++i) {
 			SceneNode::SceneNodePtr layer(new SceneNode());
 			this->scene_layers[i] = layer.get();
 			this->scene_graph.attach_child(std::move(layer));
 		}
-		std::unique_ptr<Tank> player_tank(new Tank(this->textures));
+		std::unique_ptr<Tank> player_tank(new Tank(this->textures, this->sounds));
 		this->player_tank = player_tank.get();
 		this->player_tank->setPosition(this->spawn_position);
 		this->player_tank->set_movement(0.f);

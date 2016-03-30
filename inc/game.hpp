@@ -26,7 +26,6 @@ namespace tc {
 			void update_statistics(sf::Time delta_time);
 			sf::RenderWindow window;
 			static const sf::Time TIME_PER_FRAME;
-			TextureManager texture_manager;
 			World world;
 			Player player;
 			sf::Font font;

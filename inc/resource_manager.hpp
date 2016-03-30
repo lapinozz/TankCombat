@@ -6,6 +6,7 @@
 #include <memory>
 #include <cassert>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "inc/enum_class_hash.hpp"
 
 namespace tc {
@@ -16,6 +17,8 @@ namespace tc {
 	 * Each represents a unique texture.
 	 */
 	enum class Textures {Tank, Turret};
+
+	enum class Sounds {Idle, Moving};
 
 	/**
 	 * \brief Generic manager to hold resources.
@@ -36,6 +39,7 @@ namespace tc {
 	};
 
 	typedef ResourceManager<sf::Texture, Textures> TextureManager;
+	typedef ResourceManager<sf::SoundBuffer, Sounds> SoundManager;
 
 	/**
 	 * \brief General usage load method.
