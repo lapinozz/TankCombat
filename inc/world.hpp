@@ -9,6 +9,11 @@
 #include "inc/command_queue.hpp"
 
 namespace tc {
+	/**
+	 * \brief Represents the scene.
+	 *
+	 * Contains scene graph, command queue, resource managers and other stuff.
+	 */
 	class World : private sf::NonCopyable {
 		public:
 			explicit World(sf::RenderWindow &window);

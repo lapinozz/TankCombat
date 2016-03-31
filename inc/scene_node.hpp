@@ -7,6 +7,11 @@
 #include "inc/command.hpp"
 
 namespace tc {
+	/**
+	 * \brief Represents basic scene graph node.
+	 *
+	 * Does not do much itself, but is a base class for all other node types in the graph.
+	 */
 	class SceneNode : public sf::Drawable, public sf::Transformable, private sf::NonCopyable {
 		public:
 			typedef std::unique_ptr<SceneNode> SceneNodePtr;

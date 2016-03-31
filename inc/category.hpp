@@ -2,6 +2,11 @@
 #define CATEGORY_HPP
 
 namespace tc {
+	/**
+	 * \brief Command categories.
+	 *
+	 * Lists command categories as bit flags, so they're easily combinable.
+	 */
 	enum class Category {
 		None = 0,
 		Scene = 1,

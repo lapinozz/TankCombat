@@ -4,6 +4,11 @@
 #include <queue>
 #include "inc/command.hpp"
 namespace tc {
+	/**
+	 * \brief An easy command queue wrapper.
+	 *
+	 * Hides unneeded API and makes pop return front on pop.
+	 */
 	class CommandQueue {
 		public:
 			void push(const Command &command);

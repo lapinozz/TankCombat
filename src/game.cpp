@@ -3,12 +3,17 @@
 
 namespace tc {
 
+	/**
+	 * \brief The time per frame constant.
+	 *
+	 * Limits the updates per second, fixes the timestep.
+	 */
 	const sf::Time Game::TIME_PER_FRAME = sf::seconds(1.f / 60.f);
 
 	/**
 	 * \brief Inits the Game object and prepares it to be run.
 	 *
-	 * Loads tank textures into the manager, sets up the statistics.
+	 * Instantiates the world, sets up the statistics.
 	 */
 	Game::Game() : window(sf::VideoMode(640, 480), "Tank Combat"), world(window), player(), font(), statistics_text(), statistics_update_time(), statistics_num_frames(0) {
 		if (!this->font.loadFromFile("media/sansation.ttf")) {
@@ -44,9 +49,11 @@ namespace tc {
 	}
 
 	/**
-	 * \brief Polls events and checks pressed keys.
+	 * \brief Polls events and lets player act upon them.
 	 *
-	 * Sets movement and rotation.
+	 * Invokes player handle methods.
+	 *
+	 * @see Player
 	 */
 	void Game::process_inputs() {
 		sf::Event e;
@@ -67,9 +74,10 @@ namespace tc {
 	/**
 	 * \brief Updates the model.
 	 *
-	 * Moves the tank around. Splitting movement into x and y using goniometry.
+	 * Makes the world update itself.
 	 *
 	 * @param delta_time The unit of time to forward the model by.
+	 * @see World
 	 */
 	void Game::update(sf::Time delta_time) {
 		this->world.update(delta_time);

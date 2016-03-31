@@ -8,6 +8,11 @@
 namespace tc {
 	class SceneNode;
 
+	/**
+	 * \brief The command structure.
+	 *
+	 * Holds the action and it's category.
+	 */
 	struct Command {
 		public:
 			Command();
@@ -15,6 +20,11 @@ namespace tc {
 			unsigned int category;
 	};
 
+	/**
+	 * \brief SceneNode descendant command wrapper.
+	 *
+	 * Wraps the command structure for SceneNode descendants and does the casting for us.
+	 */
 	template <typename GameObject, typename Function>
 	std::function<void(SceneNode&, sf::Time)> derived_action(Function fn) {
 		return [=](SceneNode &node, sf::Time dt) -> void {

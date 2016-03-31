@@ -6,6 +6,11 @@
 #include "inc/enum_class_hash.hpp"
 
 namespace tc {
+	/**
+	 * \brief Our hero, the tank.
+	 *
+	 * Represents the tank, which is an entity subclass.
+	 */
 	class Tank : public Entity {
 		public:
 			explicit Tank(const TextureManager &textures, const SoundManager &sounds);

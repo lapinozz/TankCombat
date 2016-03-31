@@ -4,6 +4,11 @@
 #include "inc/scene_node.hpp"
 
 namespace tc {
+	/**
+	 * \brief Entity represents a movable node of the scene graph.
+	 *
+	 * Introduces movement and rotation.
+	 */
 	class Entity : public SceneNode {
 		public:
 			void set_movement(float movement);

@@ -7,8 +7,18 @@
 #include "inc/enum_class_hash.hpp"
 
 namespace tc {
+	/**
+	 * \brief The player input.
+	 *
+	 * Class representing player input, contains keybindings.
+	 */
 	class Player {
 		public:
+			/**
+			 * \brief The action enumerator.
+			 *
+			 * Lits all the bindable actions.
+			 */
 			enum class Action {RotateLeft, RotateRight, MoveUp, MoveDown};
 			Player();
 			void handle_event(const sf::Event &event, CommandQueue &commands);

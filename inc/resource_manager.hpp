@@ -18,6 +18,11 @@ namespace tc {
 	 */
 	enum class Textures {Tank, Turret};
 
+	/**
+	 * \brief Sound identifiers.
+	 *
+	 * Each represents a unique sound.
+	 */
 	enum class Sounds {Idle, Moving};
 
 	/**
@@ -38,7 +43,22 @@ namespace tc {
 			std::unordered_map<Identifier, std::unique_ptr<Resource>, EnumClassHash> resource_map;
 	};
 
+	/**
+	 * \brief Typedef for textures.
+	 *
+	 * Holds sf::Texture by Textures.
+	 *
+	 * @see Textures
+	 */
 	typedef ResourceManager<sf::Texture, Textures> TextureManager;
+
+	/**
+	 * \brief Typedef for sounds.
+	 *
+	 * Holds sf::SoundBuffer by Sounds.
+	 *
+	 * @see Sounds
+	 */
 	typedef ResourceManager<sf::SoundBuffer, Sounds> SoundManager;
 
 	/**

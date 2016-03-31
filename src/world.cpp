@@ -2,6 +2,15 @@
 #include <cmath>
 
 namespace tc {
+	/**
+	 * \brief Constructor.
+	 *
+	 * Build the world. Calls helper methods.
+	 * @param window The RenderWindow to draw to.
+	 * @see load_textures()
+	 * @see load_sounds()
+	 * @see build_scene
+	 */
 	World::World(sf::RenderWindow &window) : window(window), world_view(window.getDefaultView()), textures(), sounds(), scene_graph(), scene_layers(), world_bounds(0.f, 0.f, this->world_view.getSize().x, this->world_view.getSize().y), spawn_position(this->world_view.getSize().x / 2.f, this->world_bounds.height - this->world_view.getSize().y / 2.f), player_tank(nullptr), command_queue() {
 		this->load_textures();
 		this->load_sounds();
@@ -9,6 +18,13 @@ namespace tc {
 		this->world_view.setCenter(this->spawn_position);
 	}
 
+	/**
+	 * \brief Updates the whole world.
+	 *
+	 * Proceeds command queue, triggers update on the scene graph.
+	 *
+	 * @param dt The time passed.
+	 */
 	void World::update(sf::Time dt) {
 		this->player_tank->set_movement(0.f);
 		while (!this->command_queue.is_empty()) {
@@ -20,28 +36,55 @@ namespace tc {
 		return;
 	}
 
+	/**
+	 * \brief Draws the whole world.
+	 *
+	 * Triggers draw on the scene graph.
+	 */
 	void World::draw() {
 		this->window.setView(this->world_view);
 		this->window.draw(this->scene_graph);
 		return;
 	}
 
+	/**
+	 * \brief Gets the command queue.
+	 *
+	 * Makes the command queue available for the other parts needing it.
+	 *
+	 * @return The command queue.
+	 */
 	CommandQueue& World::get_command_queue() {
 		return this->command_queue;
 	}
 
+	/**
+	 * \brief Loads the textures needed into the TextureManager.
+	 *
+	 * Textures are loaded from the media files right into the manager.
+	 */
 	void World::load_textures() {
 		this->textures.load(Textures::Tank, "media/Textures/Tanks/tankGreen_outline.png");
 		this->textures.load(Textures::Turret, "media/Textures/Tanks/barrelGreen_outline.png");
 		return;
 	}
 
+	/**
+	 * \brief Loads the sounds needed into the SoundManager.
+	 *
+	 * Sounds are loaded from the media files right into the manager.
+	 */
 	void World::load_sounds() {
 		this->sounds.load(Sounds::Idle, "media/Sounds/tank-idle.ogg");
 		this->sounds.load(Sounds::Moving, "media/Sounds/tank-moving.ogg");
 		return;
 	}
 
+	/**
+	 * \brief Build the scene graph.
+	 *
+	 * Creates the scene layers and fills them with appropriate nodes.
+	 */
 	void World::build_scene() {
 		for (std::size_t i = 0; i < static_cast<std::size_t>(Layer::LayerCount); ++i) {
 			SceneNode::SceneNodePtr layer(new SceneNode());
@@ -56,6 +99,11 @@ namespace tc {
 		return;
 	}
 
+	/**
+	 * \brief Prevents the player to leave the map.
+	 *
+	 * If player leaves the map, it pushes them back.
+	 */
 	void World::adapt_player_position() {
 		sf::FloatRect view_bounds(this->world_view.getCenter() - this->world_view.getSize() / 2.f, this->world_view.getSize());
 		const float border_distance = 30.f;
@@ -68,6 +116,11 @@ namespace tc {
 		return;
 	}
 
+	/**
+	 * \brief Corrects player's speed.
+	 *
+	 * Not used currently, but may be implemented in the future should need arise.
+	 */
 	void World::adapt_player_movement() {
 		return;
 	}
