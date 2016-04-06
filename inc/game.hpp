@@ -7,9 +7,6 @@
 #include "inc/player.hpp"
 
 namespace tc {
-	namespace colour {
-		const sf::Color Brown(100, 50, 0);
-	}
 	/**
 	 * \brief The main game object.
 	 *

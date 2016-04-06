@@ -10,6 +10,9 @@
 #include "inc/wall.hpp"
 
 namespace tc {
+	namespace colour {
+		const sf::Color Brown(100, 50, 0);
+	}
 	/**
 	 * \brief Represents the scene.
 	 *
@@ -31,7 +34,9 @@ namespace tc {
 			sf::Vector3f get_manifold(const sf::FloatRect &overlap, const sf::Vector2f &collision_normal);
 			void resolve(const sf::Vector3f &manifold);
 			sf::RenderWindow &window;
+			sf::RenderTexture render_texture;
 			sf::View world_view;
+			sf::View camera;
 			TextureManager textures;
 			SoundManager sounds;
 			SceneNode scene_graph;

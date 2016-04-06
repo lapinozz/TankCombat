@@ -90,7 +90,7 @@ namespace tc {
 	 * Clears the screen brown.
 	 */
 	void Game::draw() {
-		this->window.clear(colour::Brown);
+		this->window.clear();
 		this->world.draw();
 		this->window.draw(this->statistics_text);
 		this->window.display();
