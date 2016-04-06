@@ -16,7 +16,7 @@ namespace tc {
 	 *
 	 * Each represents a unique texture.
 	 */
-	enum class Textures {Tank, Turret};
+	enum class Textures {Tank, Turret, Wall};
 
 	/**
 	 * \brief Sound identifiers.

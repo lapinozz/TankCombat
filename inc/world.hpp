@@ -7,6 +7,7 @@
 #include "inc/scene_node.hpp"
 #include "inc/enum_class_hash.hpp"
 #include "inc/command_queue.hpp"
+#include "inc/wall.hpp"
 
 namespace tc {
 	/**
@@ -21,12 +22,14 @@ namespace tc {
 			void draw();
 			CommandQueue& get_command_queue();
 		private:
-			enum class Layer {Tanks, LayerCount};
+			enum class Layer {Tanks, Walls, LayerCount};
 			void load_textures();
 			void load_sounds();
 			void build_scene();
 			void adapt_player_position();
 			void adapt_player_movement();
+			sf::Vector3f get_manifold(const sf::FloatRect &overlap, const sf::Vector2f &collision_normal);
+			void resolve(const sf::Vector3f &manifold);
 			sf::RenderWindow &window;
 			sf::View world_view;
 			TextureManager textures;
@@ -36,6 +39,7 @@ namespace tc {
 			sf::FloatRect world_bounds;
 			sf::Vector2f spawn_position;
 			Tank *player_tank;
+			std::vector<Wall*> walls;
 			CommandQueue command_queue;
 	};
 }

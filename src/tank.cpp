@@ -85,4 +85,8 @@ namespace tc {
 		}
 		return;
 	}
+
+	sf::FloatRect Tank::get_world_bounds() const {
+		return sf::FloatRect(sf::Vector2f(this->get_world_position().x - 2.f, this->get_world_position().y - 2.f), sf::Vector2f(this->sprite.getTexture()->getSize()) * this->sprite.getScale().x);
+	}
 }

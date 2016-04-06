@@ -83,6 +83,10 @@ namespace tc {
 		return this->get_world_transform() * sf::Vector2f();
 	}
 
+	sf::FloatRect SceneNode::get_world_bounds() const {
+		return sf::FloatRect(this->get_world_position(), sf::Vector2f(0.f, 0.f));
+	}
+
 	/**
 	 * \brief Returns the node's command category.
 	 *
