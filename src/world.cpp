@@ -14,7 +14,7 @@ namespace tc {
 	 * @see build_scene
 	 * @see [Tutorial: Using View](https://github.com/SFML/SFML/wiki/Tutorial%3A-Using-View)
 	 */
-	World::World(sf::RenderWindow &window) : window(window), render_texture(), fixed_view(window.getDefaultView()), camera(sf::Vector2f((2000.f - 640.f) / 2.f, (2000.f - 480.f) / 2.f), sf::Vector2f(640.f, 480.f)), textures(), sounds(), scene_graph(), scene_layers(), world_bounds(0.f, 0.f, this->world_view.getSize().x, this->world_view.getSize().y), spawn_position(this->world_view.getSize().x / 2.f, this->world_bounds.height - this->world_view.getSize().y / 2.f), player_tank(nullptr), walls(), command_queue() {
+	World::World(sf::RenderWindow &window) : window(window), render_texture(), fixed_view(window.getDefaultView()), camera(sf::Vector2f((2000.f - 640.f) / 2.f, (2000.f - 480.f) / 2.f), sf::Vector2f(640.f, 480.f)), textures(), sounds(), scene_graph(), scene_layers(), world_bounds(0.f, 0.f, this->fixed_view.getSize().x, this->fixed_view.getSize().y), spawn_position(this->fixed_view.getSize().x / 2.f, this->world_bounds.height - this->fixed_view.getSize().y / 2.f), player_tank(nullptr), walls(), command_queue() {
 		this->render_texture.create(2000.f, 2000.f);
 		this->load_textures();
 		this->load_sounds();
