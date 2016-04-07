@@ -28,6 +28,7 @@ namespace tc {
 	 * Proceeds command queue, triggers update on the scene graph.
 	 *
 	 * @param dt The time passed.
+	 * @see [Tutorial: Using View](https://github.com/SFML/SFML/wiki/Tutorial%3A-Using-View)
 	 */
 	void World::update(sf::Time dt) {
 		this->player_tank->set_movement(0.f);
@@ -45,6 +46,7 @@ namespace tc {
 	 * \brief Draws the whole world.
 	 *
 	 * Triggers draw on the scene graph, builds world render texture, draws using player camera and resets to fixed view.
+	 * @see [Tutorial: Using View](https://github.com/SFML/SFML/wiki/Tutorial%3A-Using-View)
 	 */
 	void World::draw() {
 		this->render_texture.clear(colour::Brown);
