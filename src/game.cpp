@@ -87,7 +87,7 @@ namespace tc {
 	/**
 	 * \brief Draws the current state of model.
 	 *
-	 * Clears the screen brown.
+	 * Clears the screen, lets the world draw itself, and draws statistics text.
 	 */
 	void Game::draw() {
 		this->window.clear();

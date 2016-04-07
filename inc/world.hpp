@@ -35,7 +35,7 @@ namespace tc {
 			void resolve(const sf::Vector3f &manifold);
 			sf::RenderWindow &window;
 			sf::RenderTexture render_texture;
-			sf::View world_view;
+			sf::View fixed_view;
 			sf::View camera;
 			TextureManager textures;
 			SoundManager sounds;

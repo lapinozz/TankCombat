@@ -83,6 +83,14 @@ namespace tc {
 		return this->get_world_transform() * sf::Vector2f();
 	}
 
+	/**
+	 * \brief Computes and returns this node's overall bounds.
+	 *
+	 * Applies all preceder's transforms via helper function.
+	 *
+	 * @return The world bounds of this node.
+	 * @see get_world_position()
+	 */
 	sf::FloatRect SceneNode::get_world_bounds() const {
 		return sf::FloatRect(this->get_world_position(), sf::Vector2f(0.f, 0.f));
 	}

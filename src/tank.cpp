@@ -86,6 +86,13 @@ namespace tc {
 		return;
 	}
 
+	/**
+	 * \brief Computes and returns this tank's overall bounds.
+	 *
+	 * Applies all preceder's transforms via helper function.
+	 *
+	 * @return The world bounds of this tank.
+	 */
 	sf::FloatRect Tank::get_world_bounds() const {
 		return sf::FloatRect(sf::Vector2f(this->get_world_position().x - 2.f, this->get_world_position().y - 2.f), sf::Vector2f(this->sprite.getTexture()->getSize()) * this->sprite.getScale().x);
 	}

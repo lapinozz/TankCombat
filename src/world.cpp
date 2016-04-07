@@ -6,18 +6,20 @@ namespace tc {
 	/**
 	 * \brief Constructor.
 	 *
-	 * Build the world. Calls helper methods.
+	 * Build the world. Sets views. Calls helper methods.
+	 *
 	 * @param window The RenderWindow to draw to.
 	 * @see load_textures()
 	 * @see load_sounds()
 	 * @see build_scene
+	 * @see [Tutorial: Using View](https://github.com/SFML/SFML/wiki/Tutorial%3A-Using-View)
 	 */
-	World::World(sf::RenderWindow &window) : window(window), render_texture(), world_view(window.getDefaultView()), camera(sf::Vector2f((2000.f - 640.f) / 2.f, (2000.f - 480.f) / 2.f), sf::Vector2f(640.f, 480.f)), textures(), sounds(), scene_graph(), scene_layers(), world_bounds(0.f, 0.f, this->world_view.getSize().x, this->world_view.getSize().y), spawn_position(this->world_view.getSize().x / 2.f, this->world_bounds.height - this->world_view.getSize().y / 2.f), player_tank(nullptr), walls(), command_queue() {
+	World::World(sf::RenderWindow &window) : window(window), render_texture(), fixed_view(window.getDefaultView()), camera(sf::Vector2f((2000.f - 640.f) / 2.f, (2000.f - 480.f) / 2.f), sf::Vector2f(640.f, 480.f)), textures(), sounds(), scene_graph(), scene_layers(), world_bounds(0.f, 0.f, this->world_view.getSize().x, this->world_view.getSize().y), spawn_position(this->world_view.getSize().x / 2.f, this->world_bounds.height - this->world_view.getSize().y / 2.f), player_tank(nullptr), walls(), command_queue() {
 		this->render_texture.create(2000.f, 2000.f);
 		this->load_textures();
 		this->load_sounds();
 		this->build_scene();
-		this->world_view.setCenter(this->spawn_position);
+		this->fixed_view.setCenter(this->spawn_position);
 	}
 
 	/**
@@ -42,7 +44,7 @@ namespace tc {
 	/**
 	 * \brief Draws the whole world.
 	 *
-	 * Triggers draw on the scene graph.
+	 * Triggers draw on the scene graph, builds world render texture, draws using player camera and resets to fixed view.
 	 */
 	void World::draw() {
 		this->render_texture.clear(colour::Brown);
@@ -51,13 +53,7 @@ namespace tc {
 		sf::Sprite world_sprite(this->render_texture.getTexture());
 		this->window.setView(this->camera);
 		this->window.draw(world_sprite);
-		/*this->window.setView(this->minimap_view);
-		this->window.draw(world_sprite);
-		sf::RectangleShape player_marker(sf::Vector2f(1000.f, 1000.f));
-		player_marker.setFillColor(sf::Color::Green);
-		player_marker.setPosition(this->player_tank->get_world_position());
-		this->window.draw(player_marker);*/
-		this->window.setView(this->world_view);
+		this->window.setView(this->fixed_view);
 		return;
 	}
 
@@ -121,9 +117,9 @@ namespace tc {
 	}
 
 	/**
-	 * \brief Prevents the player to leave the map.
+	 * \brief Prevents the player to leave the map and to collide with walls.
 	 *
-	 * If player leaves the map, it pushes them back.
+	 * If player leaves the map or enters walls, it pushes them back.
 	 */
 	void World::adapt_player_position() {
 		sf::FloatRect world_bounds(0.f, 0.f, 2000.f, 2000.f);
@@ -157,6 +153,17 @@ namespace tc {
 		return;
 	}
 
+	/**
+	 * \brief Returns the collision manifold.
+	 *
+	 * Computes the normal vector and overlap of the collision.
+	 *
+	 * @param overlap The intersection result.
+	 * @param collision_normal The difference of positions.
+	 * @return The collision manifold, x and y represent the normal vector and z represents the overlap distance.
+	 * @see resolve(const sf::Vector3f &manifold)
+	 * @see [2D Physics 101 - Pong](http://trederia.blogspot.cz/2016/02/2d-physics-101-pong.html)
+	 */
 	sf::Vector3f World::get_manifold(const sf::FloatRect &overlap, const sf::Vector2f &collision_normal) {
 		sf::Vector3f manifold;
 		if (overlap.width < overlap.height) {
@@ -170,6 +177,15 @@ namespace tc {
 		return manifold;
 	}
 
+	/**
+	 * \brief Resolves the collision.
+	 *
+	 * Moves the tank back out of the collision.
+	 *
+	 * @param manifold The collision manifold.
+	 * @see get_manifold(const sf::FloatRect &overlap, const sf::Vector2f &collision_normal)
+	 * @see [2D Physics 101 - Pong](http://trederia.blogspot.cz/2016/02/2d-physics-101-pong.html)
+	 */
 	void World::resolve(const sf::Vector3f &manifold) {
 		sf::Vector2f normal(manifold.x, manifold.y);
 		this->player_tank->move(normal * manifold.z);

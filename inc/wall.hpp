@@ -6,6 +6,11 @@
 #include "inc/resource_manager.hpp"
 
 namespace tc {
+	/**
+	 * \brief The pesky concrete wall.
+	 *
+	 * Represents a wall, an unmoving, undestroyable element.
+	 */
 	class Wall : public SceneNode {
 		public:
 			Wall(const TextureManager &textures, const sf::Vector2f &position);
