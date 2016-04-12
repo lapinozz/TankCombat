@@ -8,6 +8,7 @@
 #include "inc/enum_class_hash.hpp"
 #include "inc/command_queue.hpp"
 #include "inc/wall.hpp"
+#include "inc/collision_detection.hpp"
 
 namespace tc {
 	namespace colour {
@@ -32,7 +33,7 @@ namespace tc {
 			void adapt_player_position();
 			void adapt_player_movement();
 			sf::Vector3f get_manifold(const sf::FloatRect &overlap, const sf::Vector2f &collision_normal);
-			void resolve(const sf::Vector3f &manifold);
+			void resolve(const Collision::Manifold& manifold);
 			sf::RenderWindow &window;
 			sf::RenderTexture render_texture;
 			sf::View fixed_view;

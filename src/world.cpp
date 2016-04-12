@@ -133,15 +133,20 @@ namespace tc {
 		position.y = std::min(position.y, world_bounds.top + world_bounds.height - border_distance);
 		this->player_tank->setPosition(position);
 		sf::FloatRect tank_position = this->player_tank->get_world_bounds();
+
 		for (auto &wall : this->walls) {
 			sf::FloatRect overlap;
 			sf::FloatRect wall_position = wall->get_world_bounds();
-			if (tank_position.intersects(wall_position, overlap)) {
-				auto collision_normal = this->player_tank->getPosition() - wall->getPosition();
-                auto manifold = this->get_manifold(overlap, collision_normal);
+			wall_position.left -= wall_position.width / 2.f;
+			wall_position.top -= wall_position.height / 2.f;
+
+            auto manifold = Collision::polygonVSpolygon({tank_position, player_tank->get_world_transform()}, {wall_position});
+
+            if(manifold.collide)
+            {
                 this->resolve(manifold);
                 break;
-			}
+            }
 		}
 		return;
 	}
@@ -188,9 +193,8 @@ namespace tc {
 	 * @see get_manifold(const sf::FloatRect &overlap, const sf::Vector2f &collision_normal)
 	 * @see [2D Physics 101 - Pong](http://trederia.blogspot.cz/2016/02/2d-physics-101-pong.html)
 	 */
-	void World::resolve(const sf::Vector3f &manifold) {
-		sf::Vector2f normal(manifold.x, manifold.y);
-		this->player_tank->move(normal * manifold.z);
+	void World::resolve(const Collision::Manifold& manifold) {
+		this->player_tank->move(-manifold.normal * manifold.depth);
 		return;
 	}
 }

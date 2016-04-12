@@ -1,5 +1,6 @@
 #include "inc/command.hpp"
 #include "inc/category.hpp"
+
 namespace tc {
 	/**
 	 * \brief Constructor.

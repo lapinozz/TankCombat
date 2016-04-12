@@ -72,14 +72,14 @@ namespace tc {
 		if (this->movement) {
 			this->idle.pause();
 			if (!was_moving) {
-				this->moving.play();
+//				this->moving.play();
 			}
 			was_moving = true;
 		}
 		else {
 			this->moving.pause();
 			if (was_moving) {
-				this->idle.play();
+//				this->idle.play();
 			}
 			was_moving = false;
 		}
@@ -95,5 +95,17 @@ namespace tc {
 	 */
 	sf::FloatRect Tank::get_world_bounds() const {
 		return sf::FloatRect(sf::Vector2f(this->get_world_position().x - 2.f, this->get_world_position().y - 2.f), sf::Vector2f(this->sprite.getTexture()->getSize()) * this->sprite.getScale().x);
+	}
+
+	/**
+	 * \brief Computes and returns this tank's local bounds.
+	 *
+	 * Applies all preceder's transforms via helper function.
+	 *
+	 * @return The local bounds of this tank.
+	 */
+	sf::FloatRect Tank::get_local_bounds() const {
+//		return sf::FloatRect(sf::Vector2f(0.f, 0.f), sf::Vector2f(this->sprite.getTexture()->getSize()) * this->sprite.getScale().x);
+        return this->sprite.getLocalBounds();
 	}
 }

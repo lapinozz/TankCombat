@@ -96,6 +96,18 @@ namespace tc {
 	}
 
 	/**
+	 * \brief Computes and returns this node's local bounds.
+	 * Non rotated but scaled
+	 *
+	 * Applies all preceder's transforms via helper function.
+	 *
+	 * @return The local bounds of this node.
+	 */
+	sf::FloatRect SceneNode::get_local_bounds() const {
+		return sf::FloatRect({0.f, 0.f}, {0.f, 0.f});
+	}
+
+	/**
 	 * \brief Returns the node's command category.
 	 *
 	 * Casted to unsigned int for composite categories.

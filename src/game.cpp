@@ -90,10 +90,10 @@ namespace tc {
 	 * Clears the screen, lets the world draw itself, and draws statistics text.
 	 */
 	void Game::draw() {
-		this->window.clear();
 		this->world.draw();
 		this->window.draw(this->statistics_text);
 		this->window.display();
+		this->window.clear();
 		return;
 	}
 

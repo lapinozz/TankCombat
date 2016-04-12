@@ -22,6 +22,7 @@ namespace tc {
 			sf::Transform get_world_transform() const;
 			sf::Vector2f get_world_position() const;
 			virtual sf::FloatRect get_world_bounds() const;
+			virtual sf::FloatRect get_local_bounds() const;
 			virtual unsigned int get_category() const;
 			void on_command(const Command &command, sf::Time dt);
 		private:
